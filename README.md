@@ -1,4 +1,5 @@
-# Clone project
+# Note App
+## git clone github_link
 
 ## Install all dependencies tape:
 
