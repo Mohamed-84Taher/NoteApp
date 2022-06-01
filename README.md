@@ -4,12 +4,13 @@
 ## Install all dependencies tape:
 
 cd project_name
+
 npm install
 
 ### Run json-server tape:
 
 json-server --watch data/db.json --port 8080
 
-### Run prject tape:
+### Run project tape:
 
 npm start
