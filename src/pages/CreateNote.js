@@ -50,7 +50,7 @@ function CreateNote() {
           },
           body: JSON.stringify({ title, details, category }),
         });
-        navigate("/notes");
+        navigate("/");
       } catch (err) {
         console.log(err);
       }

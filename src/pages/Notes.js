@@ -1,10 +1,14 @@
-import { Grid, Container } from "@mui/material";
+import { Container, InputAdornment, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import SearchIcon from "@mui/icons-material/Search";
 import NoteCard from "../components/NoteCard";
-import { useConfirm, ConfirmProvider } from "material-ui-confirm";
+import { useConfirm } from "material-ui-confirm";
+import Masonry from "react-masonry-css";
+import "./Notes.css";
 
 function Notes() {
   const [notes, setNotes] = useState([]);
+  const [searchText, setSearchText] = useState("");
   const confirm = useConfirm();
 
   // fetch data from the server
@@ -36,19 +40,44 @@ function Notes() {
       console.log("Deletion cancelled.");
     }
   };
-
+  const breakpoints = {
+    default: 3,
+    1100: 2,
+    700: 1,
+  };
   return (
-    <ConfirmProvider>
-      <Container>
-        <Grid container spacing={3}>
-          {notes.map(note => (
-            <Grid item xs={12} md={6} lg={4} key={note.id}>
+    <Container>
+      <TextField
+        style={{ marginBottom: 50, display: "block" }}
+        label='Search Notes'
+        variant='outlined'
+        fullWidth
+        helperText='Search note by title'
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position='end'>
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+        onChange={e => setSearchText(e.target.value)}
+      />
+      <Masonry
+        breakpointCols={breakpoints}
+        className='my-masonry-grid'
+        columnClassName='my-masonry-grid_column'
+      >
+        {notes
+          .filter(note =>
+            note.title.toLowerCase().includes(searchText.toLowerCase().trim())
+          )
+          .map(note => (
+            <div key={note.id}>
               <NoteCard note={note} handleDelete={handleDelete} />
-            </Grid>
+            </div>
           ))}
-        </Grid>
-      </Container>
-    </ConfirmProvider>
+      </Masonry>
+    </Container>
   );
 }
 
